@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
- <record id="paperformat_sms" model="report.paperformat">
+ <record id="paperformat_landscape" model="report.paperformat">
             <field name="name">SMS format</field>
            <field name="default" eval="True"/>
             <field name="format">A4</field>
@@ -22,11 +22,11 @@
             <field name="name">Journal Entry Landscape</field>
             <field name="model">account.move</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">nm_journal_entry_report.report_journal_entries</field>
-            <field name="report_file">nm_journal_entry_report.report_journal_entries</field>
+            <field name="report_name">sbs_journal_entry_report.report_journal_entries</field>
+            <field name="report_file">sbs_journal_entry_report.report_journal_entries</field>
             <field name="binding_model_id" ref="account.model_account_move"/>
             <field name="binding_type">report</field>
-            <field name="paperformat_id" ref="nm_journal_entry_report.paperformat_sms"/>
+            <field name="paperformat_id" ref="sbs_journal_entry_report.paperformat_landscape"/>
             <field name="print_report_name">'Journal Entry - %s' % (object.name or '')</field>
 
         </record>
