@@ -15,7 +15,7 @@
     'author': 'STRIDE BUSINESS SOLUTIONS',
     'website': 'https://www.stridebs.com',
     'license': 'AGPL-3',
-    'depends': ['account', 'mail'],
+    'depends': ['account', 'mail', 'currency_rate_live'],
     'data': [
         'views/templates.xml',
         'views/report_actions.xml',
