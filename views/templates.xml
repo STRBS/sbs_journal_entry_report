@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_journal_entries">
+	            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <t t-foreach="docs" t-as="obj">
+                            <h2 class="text-center">
+                                Journal Entry
+                            </h2>
+                            <div class="row mt32 mb32" id="information">
+                                <div t-if="obj.journal_id" class="col-4 mb-2">
+                                    <strong>Journal:</strong> <span t-field="obj.journal_id.name"/>
+                                </div>
+                                <div t-if="obj.name" class="col-4 mb-2">
+                                    <strong>Number:</strong> <span t-field="obj.name"/>
+                                </div>
+                                <div t-if="obj.date" class="col-4 mb-2">
+                                    <strong>Date:</strong> <span t-field="obj.date" t-options='{"widget": "date"}'/>
+                                </div>
+                            </div>
+
+
+                            <div class="row mt32 mb32">
+                                <div t-if="obj.ref" class="col-auto mw-100 mb-2">
+                                    <strong>Ref :</strong>
+                                    <p class="m-0" t-field="obj.ref"/>
+                                </div>
+                            </div>
+
+                            <t t-set="show_analytic" t-value="any(line.analytic_distribution for line in obj.line_ids)"/>
+                            <t t-set="show_partner" t-value="any(line.partner_id for line in obj.line_ids)"/>
+
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 13px;">Account</th>
+                                        <th style="font-size: 13px;">Label</th>
+                                        <th style="font-size: 13px; width: 60px;">Debit</th>
+                                        <th style="font-size: 13px; width: 60px;">Credit</th>
+                                        <th style="font-size: 13px;">Amount Currency</th>
+                                        <th t-if="show_analytic" style="font-size: 13px;">Analytic Distribution</th>
+                                        <th t-if="show_partner" style="font-size: 13px;">Partner</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="obj.line_ids.sorted(key=lambda line: line.id)" t-as="line">
+                                        <td><span t-esc="line.account_id.code + ' - ' + line.account_id.name" style="font-size: 12px;"/></td>
+                                        <td><span t-esc="line.name" style="font-size: 12px;"/></td>
+                                        <td class="text-right" style="width: 60px;">
+                                            <span t-esc="line.debit" style="font-size: 12px;"/>
+                                        </td>
+                                        <td class="text-right" style="width: 60px;">
+                                            <span t-esc="line.credit" style="font-size: 12px;"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.amount_currency" style="font-size: 12px;"/>
+                                        </td>
+                                        <td t-if="show_analytic">
+                                            <span t-esc="line.analytic_distribution_str" style="font-size: 12px;"/>
+                                        </td>
+                                        <td t-if="show_partner">
+                                            <span t-field="line.partner_id" style="font-size: 12px;"/>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Totals row -->
+                                    <tr>
+                                        <td style="border-top:2px solid; text-align:center; font-size: 12px;"></td>
+                                        <td style="border-top:2px solid; text-align:right; font-size: 12px;"><b>Total</b></td>
+                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
+                                            <b><span t-field="obj.amount_total_signed"/></b>
+                                        </td>
+                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
+                                            <b><span t-field="obj.amount_total_signed"/></b>
+                                        </td>
+                                        <td style="border-top:2px solid;"></td>
+                                        <td t-if="show_analytic" style="border-top:2px solid;"></td>
+                                        <td t-if="show_partner" style="border-top:2px solid;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p t-if="obj.narration">
+                                Internal Note :
+                                <span t-esc="obj.narration"/>
+                            </p>
+
+                            <table class="table table-condensed"
+                                   style="text-align:center;width:100%;border-style:none;">
+                                <tr>
+                                    <td style="text-align:center;border-style:none;">
+                                        Printed by :
+                                        <b>
+                                            <span t-esc="user.name"/>
+                                        </b>
+                                    </td>
+                                    <td style="text-align:center;border-style:none;">Signed by
+                                        ..............................
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="page-break-after:always"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
