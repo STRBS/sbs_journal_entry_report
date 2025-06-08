@@ -14,6 +14,8 @@
         """,
     'author': 'STRIDE BUSINESS SOLUTIONS',
     'website': 'https://www.stridebs.com',
+    'support': 'support@stridebs.com',
+    'images': ['images/thumbnail.png'],
     'license': 'AGPL-3',
     'depends': ['account', 'mail', 'currency_rate_live'],
     'data': [
