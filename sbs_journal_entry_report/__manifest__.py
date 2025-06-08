@@ -22,7 +22,6 @@
         'views/templates.xml',
         'views/report_actions.xml',
     ],
-    'images': ['static/description/icon.png'],
     'installable': True,
     'application': False,
     'auto_install': False,
