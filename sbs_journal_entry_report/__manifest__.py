@@ -17,7 +17,7 @@
     'support': 'support@stridebs.com',
     'images': ['images/thumbnail.png'],
     'license': 'LGPL-3',
-    'depends': ['account', 'mail'],
+    'depends': ['account', 'mail', 'currency_rate_live'],
     'data': [
         'views/templates.xml',
         'views/report_actions.xml',
