@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Journal Entry Report (Landscape)',
-    'version': '18.0.0.1',
+    'version': '19.0.0.1',
     'category': 'Accounting',
     'summary': 'Print Journal Entries in Landscape PDF Format with Chatter Support',
     'description': """
