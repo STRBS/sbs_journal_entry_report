@@ -12,7 +12,7 @@
 
             Ideal for organizations that require formal journal entry prints or approval workflows.
         """,
-    'author': 'STRIDE BUSINESS SOLUTIONS',
+    'author': 'STRIDE Business Solutions',
     'website': 'https://www.stridebs.com',
     'support': 'support@stridebs.com',
     'images': ['images/thumbnail.png'],
