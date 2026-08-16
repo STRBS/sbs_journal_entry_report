@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, _
-from datetime import datetime
-from email.utils import formataddr
-from odoo.exceptions import UserError
+from odoo import models, fields, _
 
 
 class AccountMoveLine(models.Model):
@@ -24,7 +21,11 @@ class AccountMoveLine(models.Model):
 
 class AccountMove(models.Model):
     _name = 'account.move'
-    _inherit = ['account.move', 'mail.thread']
+    # account.move already inherits mail.thread through
+    # mail.thread.main.attachment in core, so re-declaring it here added
+    # nothing. What this module actually contributes is tracking on the two
+    # fields below and the cancellation note.
+    _inherit = 'account.move'
 
     ref = fields.Char(tracking=True)
     date = fields.Date(tracking=True)
@@ -34,23 +35,3 @@ class AccountMove(models.Model):
         for move in self:
             move.message_post(body=_('Journal Entry cancelled.'))
         return res
-
-    # def _get_default_from(self):
-    #     if self.env.user.email:
-    #         return formataddr((self.env.user.name, self.env.user.email))
-    #     raise UserError(_("Unable to send email, please configure the sender's email address or alias."))
-    #
-    # def create_mail_message(self, body):
-    #     user = self.env.user
-    #     for move in self:
-    #         vals = {'message_type': 'notification',
-    #                 'author_id': user.partner_id.id,
-    #                 'date': datetime.now(),
-    #                 'email_from': self._get_default_from(),
-    #                 'model': 'account.move',
-    #                 'res_id': move.id,
-    #                 'subtype_id': 2,
-    #                 'body': body}
-    #         self.env['mail.message'].create(vals)
-
-
