@@ -2,7 +2,7 @@
 <odoo>
     <data>
  <record id="paperformat_landscape" model="report.paperformat">
-            <field name="name">SMS format</field>
+            <field name="name">Journal Entry (Landscape)</field>
            <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="orientation">Landscape</field>
