@@ -20,15 +20,15 @@ class AccountMoveLine(models.Model):
 
 
 class AccountMove(models.Model):
-    _name = 'account.move'
-    # account.move already inherits mail.thread through
-    # mail.thread.main.attachment in core, so re-declaring it here added
-    # nothing. What this module actually contributes is tracking on the two
-    # fields below and the cancellation note.
+    # Checked against odoo/addons/account/models/account_move.py on 17.0, 18.0
+    # and 19.0: core already declares ref, date, state and partner_id with
+    # tracking=True. This module used to re-declare ref and date with
+    # tracking=True, which changed nothing at all -- removed.
+    #
+    # What the module actually contributes is the landscape report, the two
+    # helper properties above that flatten analytic distribution and tax names
+    # for it, and the explicit cancellation note below.
     _inherit = 'account.move'
-
-    ref = fields.Char(tracking=True)
-    date = fields.Date(tracking=True)
 
     def button_cancel(self):
         res = super().button_cancel()
