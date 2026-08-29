@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Journal Entry Landscape',
-    'version': '18.0.0.3',
+    'version': '17.0.0.3',
     'category': 'Accounting',
     'summary': 'Landscape PDF for journal entries - wide entries with analytic distribution and taxes, readable on one page.',
     'description': """
@@ -22,7 +22,7 @@
             * Depends on Accounting (account) only. Community and Enterprise both.
             * Third-party apps install on Odoo.sh and on-premise databases only.
               They cannot be installed on Odoo Online (SaaS).
-            * Odoo 18.0. Each Odoo version is sold as a separate product here.
+            * Odoo 17.0. Each Odoo version is sold as a separate product here.
             """,
     'author': 'STRIDE Business Solutions',
     'website': 'https://www.stridebs.com',
