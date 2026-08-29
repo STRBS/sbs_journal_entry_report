@@ -32,6 +32,7 @@
 
                             <t t-set="show_analytic" t-value="any(line.analytic_distribution for line in obj.line_ids)"/>
                             <t t-set="show_partner" t-value="any(line.partner_id for line in obj.line_ids)"/>
+                            <t t-set="show_taxes" t-value="any(line.tax_ids for line in obj.line_ids)"/>
 
                             <table class="table table-sm o_main_table">
                                 <thead>
@@ -42,6 +43,7 @@
                                         <th style="font-size: 13px; width: 60px;">Credit</th>
                                         <th style="font-size: 13px;">Amount Currency</th>
                                         <th t-if="show_analytic" style="font-size: 13px;">Analytic Distribution</th>
+                                        <th t-if="show_taxes" style="font-size: 13px;">Taxes</th>
                                         <th t-if="show_partner" style="font-size: 13px;">Partner</th>
                                     </tr>
                                 </thead>
@@ -61,6 +63,9 @@
                                         <td t-if="show_analytic">
                                             <span t-esc="line.analytic_distribution_str" style="font-size: 12px;"/>
                                         </td>
+                                        <td t-if="show_taxes">
+                                            <span t-esc="line.tax_names_str" style="font-size: 12px;"/>
+                                        </td>
                                         <td t-if="show_partner">
                                             <span t-field="line.partner_id" style="font-size: 12px;"/>
                                         </td>
@@ -78,6 +83,7 @@
                                         </td>
                                         <td style="border-top:2px solid;"></td>
                                         <td t-if="show_analytic" style="border-top:2px solid;"></td>
+                                        <td t-if="show_taxes" style="border-top:2px solid;"></td>
                                         <td t-if="show_partner" style="border-top:2px solid;"></td>
                                     </tr>
                                 </tbody>

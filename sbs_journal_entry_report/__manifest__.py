@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Journal Entry Landscape',
-    'version': '19.0.0.3',
+    'version': '19.0.0.4',
     'category': 'Accounting',
     'summary': 'Landscape PDF for journal entries - wide entries with analytic distribution and taxes, readable on one page.',
     'description': """
@@ -27,7 +27,7 @@
     'author': 'STRIDE Business Solutions',
     'website': 'https://www.stridebs.com',
     'support': 'support@stridebs.com',
-    'images': ['images/thumbnail.png'],
+    'images': ['static/description/thumbnail.png', 'static/description/screenshot-report.png'],
     'license': 'LGPL-3',
     # currency_rate_live is Enterprise-only and was never referenced by this
     # module; it came across from the client project this was extracted from
