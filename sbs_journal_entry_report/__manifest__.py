@@ -1,23 +1,29 @@
 # -*- encoding: utf-8 -*-
 {
-    'name': 'Journal Entry Report (Landscape)',
-    'version': '19.0.0.2',
+    'name': 'Journal Entry Landscape',
+    'version': '19.0.0.3',
     'category': 'Accounting',
-    'summary': 'Print Journal Entries in Landscape PDF Format with Chatter Support',
+    'summary': 'Landscape PDF for journal entries - wide entries with analytic distribution and taxes, readable on one page.',
     'description': """
-            Journal entries print as a portrait PDF that runs out of room the moment an
-            entry has analytic distribution, several taxes, or more than a handful of lines.
+            Odoo prints a journal entry as a portrait PDF, and it runs out of room
+            the moment an entry carries analytic distribution, several taxes, or
+            more than a handful of lines.
 
-            This module adds a landscape-oriented PDF report for journal entries, laid out
-            for entries that are wide rather than long: analytic distribution and tax names
-            are rendered inline, so a reviewer sees the whole line without scrolling a page
-            sideways.
+            This module adds a LANDSCAPE PDF report for journal entries, laid out
+            for entries that are wide rather than long. Analytic distribution and
+            tax names are flattened inline, so a reviewer sees the whole line
+            instead of a column cut off at the page edge.
 
-            It also turns on change tracking for the Reference and Date fields, and logs a
-            note when an entry is cancelled, so those changes appear in the entry's chatter.
+            It also posts an explicit note in the chatter when an entry is
+            cancelled.
 
-            Runs on Odoo Community and Enterprise.
-        """,
+            Requirements
+            ------------
+            * Depends on Accounting (account) only. Community and Enterprise both.
+            * Third-party apps install on Odoo.sh and on-premise databases only.
+              They cannot be installed on Odoo Online (SaaS).
+            * Odoo 19.0. Each Odoo version is sold as a separate product here.
+            """,
     'author': 'STRIDE Business Solutions',
     'website': 'https://www.stridebs.com',
     'support': 'support@stridebs.com',
