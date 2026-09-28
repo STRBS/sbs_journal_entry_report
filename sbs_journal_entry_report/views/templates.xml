@@ -1,119 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <template id="report_journal_entries">
-	            <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <div class="page">
+    <template id="report_journal_entries_document">
+        <t t-call="web.external_layout">
+            <t t-set="entry" t-value="entries[o.id]"/>
+            <t t-set="company_currency" t-value="o.company_id.currency_id"/>
+            <!-- wkhtmltopdf ignores the dir attribute Odoo puts on <body>, so an
+                 Arabic PDF came out left-to-right; set the CSS direction here. -->
+            <t t-set="is_rtl" t-value="env['res.lang']._get_data(code=lang or env.user.lang).direction == 'rtl'"/>
+            <div t-attf-class="page o_sbs_journal_entry {{'o_sbs_rtl' if is_rtl else ''}}"
+                 t-attf-style="font-size: 12px; direction: {{'rtl' if is_rtl else 'ltr'}};">
+                <style>
+                    .o_sbs_journal_entry table.table th,
+                    .o_sbs_journal_entry table.table td { text-align: left; }
+                    .o_sbs_journal_entry table.table .o_sbs_num { text-align: right; white-space: nowrap; }
+                    .o_sbs_rtl table.table th,
+                    .o_sbs_rtl table.table td { text-align: right; }
+                    .o_sbs_rtl table.table .o_sbs_num { text-align: left; }
+                    .o_sbs_journal_entry .o_sbs_text { unicode-bidi: embed; }
+                </style>
+                <h2 class="text-center">
+                    <span>Journal Entry</span>
+                    <span t-if="o.state == 'draft'" class="text-muted">(Draft)</span>
+                    <span t-if="o.state == 'cancel'" class="text-danger">(Cancelled)</span>
+                </h2>
 
-                        <t t-foreach="docs" t-as="obj">
-                            <h2 class="text-center">
-                                Journal Entry
-                            </h2>
-                            <div class="row mt32 mb32" id="information">
-                                <div t-if="obj.journal_id" class="col-4 mb-2">
-                                    <strong>Journal:</strong> <span t-field="obj.journal_id.name"/>
-                                </div>
-                                <div t-if="obj.name" class="col-4 mb-2">
-                                    <strong>Number:</strong> <span t-field="obj.name"/>
-                                </div>
-                                <div t-if="obj.date" class="col-4 mb-2">
-                                    <strong>Date:</strong> <span t-field="obj.date" t-options='{"widget": "date"}'/>
-                                </div>
-                            </div>
-
-
-                            <div class="row mt32 mb32">
-                                <div t-if="obj.ref" class="col-auto mw-100 mb-2">
-                                    <strong>Ref :</strong>
-                                    <p class="m-0" t-field="obj.ref"/>
-                                </div>
-                            </div>
-
-                            <t t-set="show_analytic" t-value="any(line.analytic_distribution for line in obj.line_ids)"/>
-                            <t t-set="show_partner" t-value="any(line.partner_id for line in obj.line_ids)"/>
-                            <t t-set="show_taxes" t-value="any(line.tax_ids for line in obj.line_ids)"/>
-
-                            <table class="table table-sm o_main_table">
-                                <thead>
-                                    <tr>
-                                        <th style="font-size: 13px;">Account</th>
-                                        <th style="font-size: 13px;">Label</th>
-                                        <th style="font-size: 13px; width: 60px;">Debit</th>
-                                        <th style="font-size: 13px; width: 60px;">Credit</th>
-                                        <th style="font-size: 13px;">Amount Currency</th>
-                                        <th t-if="show_analytic" style="font-size: 13px;">Analytic Distribution</th>
-                                        <th t-if="show_taxes" style="font-size: 13px;">Taxes</th>
-                                        <th t-if="show_partner" style="font-size: 13px;">Partner</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr t-foreach="obj.line_ids.sorted(key=lambda line: line.id)" t-as="line">
-                                        <td><span t-esc="line.account_id.code + ' - ' + line.account_id.name" style="font-size: 12px;"/></td>
-                                        <td><span t-esc="line.name" style="font-size: 12px;"/></td>
-                                        <td class="text-right" style="width: 60px;">
-                                            <span t-esc="line.debit" style="font-size: 12px;"/>
-                                        </td>
-                                        <td class="text-right" style="width: 60px;">
-                                            <span t-esc="line.credit" style="font-size: 12px;"/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-field="line.amount_currency" style="font-size: 12px;"/>
-                                        </td>
-                                        <td t-if="show_analytic">
-                                            <span t-esc="line.analytic_distribution_str" style="font-size: 12px;"/>
-                                        </td>
-                                        <td t-if="show_taxes">
-                                            <span t-esc="line.tax_names_str" style="font-size: 12px;"/>
-                                        </td>
-                                        <td t-if="show_partner">
-                                            <span t-field="line.partner_id" style="font-size: 12px;"/>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Totals row -->
-                                    <tr>
-                                        <td style="border-top:2px solid; text-align:center; font-size: 12px;"></td>
-                                        <td style="border-top:2px solid; text-align:right; font-size: 12px;"><b>Total</b></td>
-                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
-                                            <b><span t-field="obj.amount_total_signed"/></b>
-                                        </td>
-                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
-                                            <b><span t-field="obj.amount_total_signed"/></b>
-                                        </td>
-                                        <td style="border-top:2px solid;"></td>
-                                        <td t-if="show_analytic" style="border-top:2px solid;"></td>
-                                        <td t-if="show_taxes" style="border-top:2px solid;"></td>
-                                        <td t-if="show_partner" style="border-top:2px solid;"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <p t-if="obj.narration">
-                                Internal Note :
-                                <span t-esc="obj.narration"/>
-                            </p>
-
-                            <table class="table table-condensed"
-                                   style="text-align:center;width:100%;border-style:none;">
-                                <tr>
-                                    <td style="text-align:center;border-style:none;">
-                                        Printed by :
-                                        <b>
-                                            <span t-esc="user.name"/>
-                                        </b>
-                                    </td>
-                                    <td style="text-align:center;border-style:none;">Signed by
-                                        ..............................
-                                    </td>
-                                </tr>
-                            </table>
-                            <p style="page-break-after:always"/>
-                        </t>
+                <div class="row mt-4 mb-3" id="information">
+                    <div t-if="o.journal_id" class="col-3 mb-2" name="journal">
+                        <strong>Journal:</strong> <span t-field="o.journal_id"/>
                     </div>
-                </t>
-            </t>
-        </template>
+                    <div t-if="o.name and o.name != '/'" class="col-3 mb-2" name="number">
+                        <strong>Number:</strong> <span class="o_force_ltr" t-field="o.name"/>
+                    </div>
+                    <div t-if="o.date" class="col-3 mb-2" name="date">
+                        <strong>Date:</strong> <span t-field="o.date" t-options="{'widget': 'date'}"/>
+                    </div>
+                    <div t-if="o.ref" class="col-3 mb-2" name="reference">
+                        <strong>Reference:</strong> <span t-field="o.ref"/>
+                    </div>
+                </div>
 
-    </data>
+                <table class="table table-sm o_main_table" name="journal_items">
+                    <thead>
+                        <tr>
+                            <th name="th_account">Account</th>
+                            <th name="th_label">Label</th>
+                            <th t-if="entry['show_partner']" name="th_partner">Partner</th>
+                            <th t-if="entry['show_analytic']" name="th_analytic">Analytic Distribution</th>
+                            <th t-if="entry['show_taxes']" name="th_taxes">Taxes</th>
+                            <th t-if="entry['show_currency']" name="th_amount_currency" class="o_sbs_num">Amount Currency</th>
+                            <th name="th_debit" class="o_sbs_num">Debit</th>
+                            <th name="th_credit" class="o_sbs_num">Credit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="entry['rows']" t-as="row">
+                            <t t-set="line" t-value="row['line']"/>
+                            <td name="td_account"><span dir="auto" class="o_sbs_text" t-out="line.account_id.display_name"/></td>
+                            <td name="td_label"><span dir="auto" class="o_sbs_text" t-out="line.name"/></td>
+                            <td t-if="entry['show_partner']" name="td_partner"><span dir="auto" class="o_sbs_text" t-out="line.partner_id.display_name"/></td>
+                            <td t-if="entry['show_analytic']" name="td_analytic"><span dir="auto" class="o_sbs_text" t-out="row['analytic']"/></td>
+                            <td t-if="entry['show_taxes']" name="td_taxes"><span dir="auto" class="o_sbs_text" t-out="row['taxes']"/></td>
+                            <td t-if="entry['show_currency']" name="td_amount_currency" class="o_sbs_num">
+                                <span t-if="line.currency_id != company_currency" class="o_force_ltr"
+                                      t-out="line.amount_currency"
+                                      t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                            </td>
+                            <td name="td_debit" class="o_sbs_num">
+                                <span class="o_force_ltr" t-out="line.debit"
+                                      t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                            </td>
+                            <td name="td_credit" class="o_sbs_num">
+                                <span class="o_force_ltr" t-out="line.credit"
+                                      t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                            </td>
+                        </tr>
+                        <tr class="fw-bold" name="totals" style="border-top: 2px solid;">
+                            <t t-set="leading_cols" t-value="2 + int(entry['show_partner']) + int(entry['show_analytic']) + int(entry['show_taxes']) + int(entry['show_currency'])"/>
+                            <td t-att-colspan="leading_cols" class="o_sbs_num">Total</td>
+                            <td name="total_debit" class="o_sbs_num">
+                                <span class="o_force_ltr" t-out="entry['total_debit']"
+                                      t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                            </td>
+                            <td name="total_credit" class="o_sbs_num">
+                                <span class="o_force_ltr" t-out="entry['total_credit']"
+                                      t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div t-if="not is_html_empty(o.narration)" name="narration" class="mt-3">
+                    <strong>Internal Note:</strong>
+                    <div t-field="o.narration"/>
+                </div>
+
+                <div class="row mt-5" name="signatures">
+                    <div class="col-6 text-center">
+                        <span>Printed by:</span> <strong t-out="user.name"/>
+                    </div>
+                    <div class="col-6 text-center">
+                        <span>Signed by:</span> ..............................
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_journal_entries">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sbs_journal_entry_report.report_journal_entries_document"/>
+            </t>
+        </t>
+    </template>
 </odoo>

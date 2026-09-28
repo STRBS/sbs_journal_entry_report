@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Journal Entry Landscape',
-    'version': '19.0.0.4',
+    'version': '20.0.1.0.0',
     'category': 'Accounting',
     'summary': 'Landscape PDF for journal entries - wide entries with analytic distribution and taxes, readable on one page.',
     'description': """
@@ -14,6 +14,13 @@
             tax names are flattened inline, so a reviewer sees the whole line
             instead of a column cut off at the page edge.
 
+            Totals are the sums of the debit and credit columns, amounts are
+            formatted in the company currency, and the "Amount Currency" column
+            appears only when a line is in a foreign currency. Draft and
+            cancelled entries are marked as such in the title. Arabic and other
+            right-to-left languages print right-to-left with amounts kept
+            left-to-right.
+
             It also posts an explicit note in the chatter when an entry is
             cancelled.
 
@@ -22,12 +29,12 @@
             * Depends on Accounting (account) only. Community and Enterprise both.
             * Third-party apps install on Odoo.sh and on-premise databases only.
               They cannot be installed on Odoo Online (SaaS).
-            * Odoo 19.0. Each Odoo version is sold as a separate product here.
+            * Odoo 20.0. Each Odoo version is published as a separate listing.
             """,
     'author': 'STRIDE Business Solutions',
     'website': 'https://www.stridebs.com',
     'support': 'support@stridebs.com',
-    'images': ['static/description/thumbnail.png', 'static/description/screenshot-report.png'],
+    'images': ['static/description/thumbnail.png', 'static/description/screenshot-report.png', 'static/description/screenshot-report-ar.png'],
     'license': 'LGPL-3',
     # currency_rate_live is Enterprise-only and was never referenced by this
     # module; it came across from the client project this was extracted from
