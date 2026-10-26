@@ -116,6 +116,11 @@ msgid "Journal Entry"
 msgstr "قيد اليومية"
 
 #. module: sbs_journal_entry_report
+#: model:ir.actions.report,name:sbs_journal_entry_report.action_report_print_je
+msgid "Journal Entry Landscape"
+msgstr "سند القيد (أفقي)"
+
+#. module: sbs_journal_entry_report
 #: model:ir.model,name:sbs_journal_entry_report.model_report_sbs_journal_entry_report_report_journal_entries
 msgid "Journal Entry Landscape Report"
 msgstr "تقرير قيد اليومية الأفقي"

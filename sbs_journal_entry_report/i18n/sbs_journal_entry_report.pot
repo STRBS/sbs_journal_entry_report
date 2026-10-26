@@ -115,6 +115,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: sbs_journal_entry_report
+#: model:ir.actions.report,name:sbs_journal_entry_report.action_report_print_je
+msgid "Journal Entry Landscape"
+msgstr ""
+
+#. module: sbs_journal_entry_report
 #: model:ir.model,name:sbs_journal_entry_report.model_report_sbs_journal_entry_report_report_journal_entries
 msgid "Journal Entry Landscape Report"
 msgstr ""
