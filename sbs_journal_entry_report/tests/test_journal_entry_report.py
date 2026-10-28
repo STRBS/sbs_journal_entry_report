@@ -182,9 +182,15 @@ class TestJournalEntryReport(AccountTestInvoicingCommon):
         self.assertLessEqual(nine, one + 3, (one, nine))
 
     def test_arabic_prints_rtl_with_ltr_amounts(self):
-        self.env['res.lang']._activate_lang('ar_001')
-        self.env['ir.module.module'].search(
-            [('name', '=', 'sbs_journal_entry_report')])._update_translations(['ar_001'])
+        # Where Arabic is already active (every Nasaq tenant), the module's terms
+        # were loaded at install: load nothing. A terms load runs every installed
+        # module's hooks on records this test did not create, and as the test's
+        # accountant it was refused on demo (H1706). Only a database without
+        # Arabic loads this module's own terms, as the superuser, like an install.
+        if not self.env['res.lang']._lang_get('ar_001'):
+            self.env['res.lang']._activate_lang('ar_001')
+            self.env['ir.module.module'].sudo()._load_module_terms(
+                ['sbs_journal_entry_report'], ['ar_001'])
         self.env.user.lang = 'ar_001'
         doc = self._render(self.entry, lang='ar_001')
         self.assertEqual(doc.xpath('//body/@dir'), ['rtl'])
