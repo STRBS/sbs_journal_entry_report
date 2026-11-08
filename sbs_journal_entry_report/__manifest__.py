@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Journal Entry Landscape',
-    'version': '18.0.0.4',
+    'version': '18.0.0.5',
     'category': 'Accounting',
     'summary': 'Landscape PDF for journal entries - wide entries with analytic distribution and taxes, readable on one page.',
     'description': """
