@@ -7,12 +7,23 @@ class AccountMoveLine(models.Model):
 
     @property
     def analytic_distribution_str(self):
-        return ', '.join(
-            ['%s: %s%%' % (
-                self.env['account.analytic.account'].browse(int(k)).name,
-                round(v, 2)
-            ) for k, v in self.analytic_distribution.items()]
-        ) if self.analytic_distribution else ''
+        """Analytic distribution as 'Account: 100%' text.
+
+        A key is one account id, or several ids joined by commas when the
+        line is split across analytic plans (e.g. '339,1831'); int() on such
+        a key crashed the report. Accounts are read with sudo so printing is
+        not stopped by analytic read rights.
+        """
+        if not self.analytic_distribution:
+            return ''
+        Analytic = self.env['account.analytic.account'].sudo()
+        parts = []
+        for key, percent in self.analytic_distribution.items():
+            ids = [int(i) for i in str(key).split(',') if i.strip().isdigit()]
+            names = ' / '.join(Analytic.browse(ids).exists().mapped('name'))
+            if names:
+                parts.append('%s: %s%%' % (names, ('%.2f' % percent).rstrip('0').rstrip('.')))
+        return ', '.join(parts)
 
     @property
     def tax_names_str(self):
