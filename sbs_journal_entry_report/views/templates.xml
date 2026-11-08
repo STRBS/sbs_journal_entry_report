@@ -52,10 +52,10 @@
                                         <td><span t-esc="line.account_id.code + ' - ' + line.account_id.name" style="font-size: 12px;"/></td>
                                         <td><span t-esc="line.name" style="font-size: 12px;"/></td>
                                         <td class="text-right" style="width: 60px;">
-                                            <span t-esc="line.debit" style="font-size: 12px;"/>
+                                            <span t-field="line.debit" style="font-size: 12px;"/>
                                         </td>
                                         <td class="text-right" style="width: 60px;">
-                                            <span t-esc="line.credit" style="font-size: 12px;"/>
+                                            <span t-field="line.credit" style="font-size: 12px;"/>
                                         </td>
                                         <td class="text-right">
                                             <span t-field="line.amount_currency" style="font-size: 12px;"/>
