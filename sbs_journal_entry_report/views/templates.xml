@@ -7,10 +7,10 @@
                     <div class="page">
 
                         <t t-foreach="docs" t-as="obj">
-                            <h2 class="text-center">
+                            <h4 class="text-center">
                                 Journal Entry
-                            </h2>
-                            <div class="row mt32 mb32" id="information">
+                            </h4>
+                            <div class="row mt8 mb8" id="information">
                                 <div t-if="obj.journal_id" class="col-4 mb-2">
                                     <strong>Journal:</strong> <span t-field="obj.journal_id.name"/>
                                 </div>
@@ -23,7 +23,7 @@
                             </div>
 
 
-                            <div class="row mt32 mb32">
+                            <div class="row mt8 mb8">
                                 <div t-if="obj.ref" class="col-auto mw-100 mb-2">
                                     <strong>Ref :</strong>
                                     <p class="m-0" t-field="obj.ref"/>
@@ -37,48 +37,48 @@
                             <table class="table table-sm o_main_table">
                                 <thead>
                                     <tr>
-                                        <th style="font-size: 13px;">Account</th>
-                                        <th style="font-size: 13px;">Label</th>
-                                        <th style="font-size: 13px; width: 60px;">Debit</th>
-                                        <th style="font-size: 13px; width: 60px;">Credit</th>
-                                        <th style="font-size: 13px;">Amount Currency</th>
-                                        <th t-if="show_analytic" style="font-size: 13px;">Analytic Distribution</th>
-                                        <th t-if="show_taxes" style="font-size: 13px;">Taxes</th>
-                                        <th t-if="show_partner" style="font-size: 13px;">Partner</th>
+                                        <th style="font-size: 11px;">Account</th>
+                                        <th style="font-size: 11px;">Label</th>
+                                        <th style="font-size: 11px; width: 60px;">Debit</th>
+                                        <th style="font-size: 11px; width: 60px;">Credit</th>
+                                        <th style="font-size: 11px;">Amount Currency</th>
+                                        <th t-if="show_analytic" style="font-size: 11px;">Analytic Distribution</th>
+                                        <th t-if="show_taxes" style="font-size: 11px;">Taxes</th>
+                                        <th t-if="show_partner" style="font-size: 11px;">Partner</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr t-foreach="obj.line_ids.sorted(key=lambda line: line.id)" t-as="line">
-                                        <td><span t-esc="line.account_id.code + ' - ' + line.account_id.name" style="font-size: 12px;"/></td>
-                                        <td><span t-esc="line.name" style="font-size: 12px;"/></td>
+                                        <td><span t-esc="line.account_id.code + ' - ' + line.account_id.name" style="font-size: 10px;"/></td>
+                                        <td><span t-esc="line.name" style="font-size: 10px;"/></td>
                                         <td class="text-right" style="width: 60px;">
-                                            <span t-field="line.debit" style="font-size: 12px;"/>
+                                            <span t-field="line.debit" style="font-size: 10px;"/>
                                         </td>
                                         <td class="text-right" style="width: 60px;">
-                                            <span t-field="line.credit" style="font-size: 12px;"/>
+                                            <span t-field="line.credit" style="font-size: 10px;"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-field="line.amount_currency" style="font-size: 12px;"/>
+                                            <span t-field="line.amount_currency" style="font-size: 10px;"/>
                                         </td>
                                         <td t-if="show_analytic">
-                                            <span t-esc="line.analytic_distribution_str" style="font-size: 12px;"/>
+                                            <span t-esc="line.analytic_distribution_str" style="font-size: 10px;"/>
                                         </td>
                                         <td t-if="show_taxes">
-                                            <span t-esc="line.tax_names_str" style="font-size: 12px;"/>
+                                            <span t-esc="line.tax_names_str" style="font-size: 10px;"/>
                                         </td>
                                         <td t-if="show_partner">
-                                            <span t-field="line.partner_id" style="font-size: 12px;"/>
+                                            <span t-field="line.partner_id" style="font-size: 10px;"/>
                                         </td>
                                     </tr>
 
                                     <!-- Totals row -->
                                     <tr>
-                                        <td style="border-top:2px solid; text-align:center; font-size: 12px;"></td>
-                                        <td style="border-top:2px solid; text-align:right; font-size: 12px;"><b>Total</b></td>
-                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
+                                        <td style="border-top:2px solid; text-align:center; font-size: 10px;"></td>
+                                        <td style="border-top:2px solid; text-align:right; font-size: 10px;"><b>Total</b></td>
+                                        <td class="text-right" style="border-top:2px solid; font-size: 10px; width: 60px;">
                                             <b><span t-field="obj.amount_total_signed"/></b>
                                         </td>
-                                        <td class="text-right" style="border-top:2px solid; font-size: 12px; width: 60px;">
+                                        <td class="text-right" style="border-top:2px solid; font-size: 10px; width: 60px;">
                                             <b><span t-field="obj.amount_total_signed"/></b>
                                         </td>
                                         <td style="border-top:2px solid;"></td>
